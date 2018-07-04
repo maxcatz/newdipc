@@ -4,61 +4,44 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class YamlReadTest {
-
-
+    // test case
     @Test
-    public void simpleLeaf(){
-        PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty("keyA: valueB");
-        String[] tokens= child.getTokens();
-        Assert.assertEquals("keyA", tokens[PropertyMap.KEY_INDEX]);
-        Assert.assertEquals("valueB", tokens[PropertyMap.VALUE_INDEX] );
+    public void testCase(){
+        validator("", "", "", "","", "");
+    }
+    // leaf cases
+    @Test
+    public void leafCases(){
+        validator("key: ",                      "", "key", " ","value", "");
+        validator("key: value",                 "", "key", " ","value", "");
+        validator("key: value #comment",        "", "key", " ","value", " #comment");
+        validator("key: #comment",              "", "key", "","", " #comment");
     }
 
+    // child cases
     @Test
-    public void leafWithComment(){
-        PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty("one: two        #Comment");
-        String[] tokens= child.getTokens();
-        Assert.assertEquals("one", tokens[PropertyMap.KEY_INDEX]);
-        Assert.assertEquals("two", tokens[PropertyMap.VALUE_INDEX] );
-        Assert.assertEquals("        #Comment", tokens[PropertyMap.AFTER_VALUE_INDEX]);
+    public void childCases(){
+        validator(" key: value",                " ", "key", " ","value", "");
+        validator(" key: value #comment",       " ", "key", " ","value", " #comment");
     }
 
+    // varied cases
     @Test
-    public void chieldLeafWithComment(){
-        PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty("    one: two #Comment");
-        String[] tokens= child.getTokens();
-        Assert.assertEquals("    ", tokens[PropertyMap.BEFORE_KEY_INDEX]);
-        Assert.assertEquals("one", tokens[PropertyMap.KEY_INDEX]);
-        Assert.assertEquals("two", tokens[PropertyMap.VALUE_INDEX] );
-        Assert.assertEquals(" #Comment", tokens[PropertyMap.AFTER_VALUE_INDEX]);
+    public void variedCases(){
+        validator("", "", "", "","", "");
+        validator("#comment", "", "", "","", "#comment");
+        validator("  #comment  now  ", "", "", "","", "  #comment  now  ");
     }
 
-    @Test
-    public void emptyLine(){
+    // method of validation
+    public void validator(String input, String beforeKey, String key, String beforeValue, String Value, String afterValue){
         PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty("");
-        String[] tokens = child.getTokens();
-        Assert.assertEquals("", tokens[PropertyMap.AFTER_VALUE_INDEX]);
-    }
-
-    @Test
-    public void keyOnly(){
-        PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty("     keyA:        ");
+        PropertyMap child = propertyMap.addProperty(input);
         String[] tokens= child.getTokens();
-        Assert.assertEquals("     ", tokens[PropertyMap.BEFORE_KEY_INDEX]);
-        Assert.assertEquals("keyA", tokens[PropertyMap.KEY_INDEX]);
-        Assert.assertEquals("        ", tokens[PropertyMap.AFTER_VALUE_INDEX]);
-    }
-
-    @Test
-    public void commentOnly(){
-        PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty("     #comment   now        ");
-        String[] tokens= child.getTokens();
-        Assert.assertEquals("     #comment   now        ", tokens[PropertyMap.AFTER_VALUE_INDEX]);
+        Assert.assertEquals(beforeKey, tokens[PropertyMap.BEFORE_KEY_INDEX]);
+        Assert.assertEquals(key, tokens[PropertyMap.KEY_INDEX]);
+        Assert.assertEquals(beforeValue, tokens[PropertyMap.BEFORE_VALUE_INDEX]);
+        Assert.assertEquals(Value, tokens[PropertyMap.VALUE_INDEX] );
+        Assert.assertEquals(afterValue, tokens[PropertyMap.AFTER_VALUE_INDEX]);
     }
 }
