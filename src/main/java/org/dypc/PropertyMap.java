@@ -1,77 +1,66 @@
 package org.dypc;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class PropertyMap {
-    private int afterValueSpaces;
-    private String comment;
+    private static final int BEFORE_KEY_INDEX = 0;
+    private static final int KEY_INDEX = 1;
+    private static final int BEFORE_VALUE_INDEX = 2;
+    private static final int VALUE_INDEX = 3;
+    private static final int AFTER_VALUE_INDEX = 4;
+
+    private String[] tokens;
     private Map<String, PropertyMap> propertyMap;
-    private int leadingSpacesNum;
-    private String key;
-    private int beforeVlaueSpaces;
-    private Object value;
-    private String line;
 
     private static final Pattern pattern = Pattern.compile("(\\s*)(.*):(\\s+)(.*)(\\s*)#(.*)");
 
     public PropertyMap() {
+        this.tokens = null;
         this.propertyMap = new HashMap<>();
     }
 
-    public PropertyMap(int leadingSpacesNum, String key, int beforeVlaueSpaces, Object value, int afterValueSpaces, String line, String comment) {
-        this.leadingSpacesNum = leadingSpacesNum;
-        this.key = key;
-        this.beforeVlaueSpaces = beforeVlaueSpaces;
-        this.value = value;
-        this.afterValueSpaces = afterValueSpaces;
-        this.line = line;
-        this.comment = comment;
+    public PropertyMap(String[] tokens) {
+        this.tokens = tokens;
         this.propertyMap = new HashMap<>();
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public String getLine() {
-        return line;
     }
 
     public PropertyMap addProperty(String line) {
         PropertyMap child = null;
+        String[] childTokens = new String[5];
         int colonIndex = line.indexOf(":");
         if (colonIndex != -1) {
-            String key = line.substring(0, colonIndex);
-            int leadingSpacesNum = key.indexOf(key.trim());
-            key = key.trim();
-            String valueAndComment = line.substring(colonIndex, line.length());
-            int beforeVlaueSpaces = valueAndComment.indexOf(valueAndComment.trim());
+            childTokens[KEY_INDEX] = line.substring(0, colonIndex).trim();
+            childTokens[BEFORE_KEY_INDEX] = line.substring(0, line.indexOf(childTokens[KEY_INDEX]));
+            String valueAndComment = line.substring(colonIndex - 1);
             int numSignIndex = valueAndComment.indexOf(" #");
-            int afterValueSpaces;
-            String value;
-            String comment;
+            childTokens[BEFORE_VALUE_INDEX] = valueAndComment.substring(0, valueAndComment.indexOf(childTokens[VALUE_INDEX]));
             if (numSignIndex != -1) {
-                value = valueAndComment.substring(0, numSignIndex - 1);
-                comment = valueAndComment.substring(numSignIndex, valueAndComment.length() - 1);
-                afterValueSpaces = valueAndComment.length() - value.length() - comment.length();
+                childTokens[VALUE_INDEX] = valueAndComment.substring(0, numSignIndex).trim();
+                childTokens[AFTER_VALUE_INDEX] = valueAndComment.substring(numSignIndex - 1);
+
             } else {
-                comment = "";
-                value = valueAndComment.trim();
-                afterValueSpaces = valueAndComment.length() - value.length() - beforeVlaueSpaces;
+                childTokens[VALUE_INDEX] = valueAndComment.trim();
+                childTokens[AFTER_VALUE_INDEX] = "";
             }
-            child = new PropertyMap(leadingSpacesNum, key, beforeVlaueSpaces, value, afterValueSpaces, line, comment);
-            propertyMap.put(key, child);
+            child = new PropertyMap(childTokens);
+            propertyMap.put(childTokens[KEY_INDEX], child);
         }
-        return child ;
+        return child;
     }
 
     public PropertyMap getProperty(String key) {
         return propertyMap.get(key);
+    }
+
+    public String[] getTokens() {
+        return tokens;
+    }
+
+    public String getLine() {
+        return Arrays.stream(tokens).collect(Collectors.joining(""));
     }
 }
