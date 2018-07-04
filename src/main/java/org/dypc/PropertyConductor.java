@@ -57,12 +57,6 @@ public class PropertyConductor {
                 }
                 levels.push(Pair.of(key, next[BEFORE_KEY_INDEX].length()));
                 propertyList.add(Pair.of(key, next));
-//                int place = findPlace(key);
-//                if (place == -1) {
-//                    propertyList.add(Pair.of(key, next));
-//                } else {
-//                    propertyList.add(place, Pair.of(key, next));
-//                }
                 System.out.println(key + ":" + next[VALUE_INDEX]);
             });
         } catch (IOException e) {
@@ -72,6 +66,9 @@ public class PropertyConductor {
 
     public String getPropertyValue (String key){
         int place = findPlace(key);
+        if (place == -2 || place == -1) {
+            return null;
+        }
         Pair<String, String[]> property = propertyList.get(place);
         if (property.getLeft().equals(key)) {
             return property.getValue()[VALUE_INDEX];
@@ -83,22 +80,54 @@ public class PropertyConductor {
         return setProperty(key,value,Operation.ADD_OR_MODIFY);
     }
 
-    public  Result setProperty (String key, String value, Operation operation){
+    public  Result setProperty (String key, String value, Operation operation) {
         int place = findPlace(key);
-        if (place != -1) {
-            Pair<String, String[]> property = propertyList.get(place);
-            if (property.getLeft().equals(key) && !Operation.ADD.equals(operation)) {
-                property.getValue()[VALUE_INDEX] = value;
-            } else if (!Operation.MODIFY.equals(operation)) {
-                propertyList.add(place, Pair.of(key, new String[]{"CHANGE THIS!!!!!!!", key, "", value, ""}));
-            }
-        } else {
-            propertyList.add(Pair.of(key, new String[]{"", key, "", value, ""}));
+        if (place == -2) {
+            return new Result(key, null, null, Operation.NONE);
         }
-        return null;
+
+        if (place == -1) {
+            if (!Operation.MODIFY.equals(operation)) {
+                propertyList.add(Pair.of(key, new String[]{propertyList.isEmpty() ? "" : propertyList.get(0).getRight()[BEFORE_KEY_INDEX], key, "", value, ""}));
+                return new Result(key, null, value, Operation.ADD);
+            } else {
+                return new Result(key, null, null, Operation.NONE);
+            }
+        }
+
+        Pair<String, String[]> property = propertyList.get(place);
+        if (property.getLeft().equals(key)) {
+            if (!Operation.ADD.equals(operation)) {
+                String oldValue = propertyList.get(place).getRight()[VALUE_INDEX];
+                property.getValue()[VALUE_INDEX] = value;
+                return new Result(key, oldValue, value, Operation.MODIFY);
+            } else {
+                return new Result(key, null, null, Operation.NONE);
+            }
+        }
+
+        if (!Operation.MODIFY.equals(operation)) {
+            String beforeKeyIndention = getIndention(key, place);
+            propertyList.add(place + 1, Pair.of(key, new String[]{beforeKeyIndention, key, "", value, ""}));
+            return new Result(key, null, value, Operation.ADD);
+        }
+        return new Result(key, null, null, Operation.NONE);
     }
 
-    public static String[] parse (String line) {
+    private String getIndention(String key, int place) {
+        int keyLevel = key.split("\\.").length;
+        for (int i = place; i >= 0; i--) {
+            int prevLevel = propertyList.get(i).getLeft().split("\\.").length;
+            if (prevLevel == keyLevel) {
+                return propertyList.get(i).getRight()[BEFORE_KEY_INDEX];
+            } else if (prevLevel < keyLevel) {
+                return propertyList.get(i).getRight()[BEFORE_KEY_INDEX] + "  ";
+            }
+        }
+        return "";
+    }
+
+    protected static String[] parse (String line) {
         String[] childTokens = new String[]{"","","","","",""};
         int colonIndex = line.indexOf(":");
         if (colonIndex != -1) {
@@ -121,11 +150,16 @@ public class PropertyConductor {
         return childTokens;
     }
 
-    public int findPlace(String key) {
+    private int findPlace(String key) {
         for (int i = propertyList.size() - 1; i >= 0; i--) {
             Pair<String, String[]> current = propertyList.get(i);
-            if (!current.getKey().isEmpty() && key.startsWith(current.getKey()))
-                return i;
+            if (!current.getLeft().isEmpty() && key.startsWith(current.getLeft())) {
+                if (key.equals(current.getLeft()) || current.getRight()[VALUE_INDEX].isEmpty()) {
+                    return i;
+                } else {
+                    return -2;
+                }
+            }
         }
         return -1;
     }
