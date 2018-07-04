@@ -2,7 +2,11 @@ package org.dypc;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,11 +24,13 @@ public class PropertyConductor {
     public static final int LINE_TAIL_INDEX = 4;
 
     private List<Pair<String,String[]>> propertyList;
+    private String file;
 
-    public PropertyConductor( String fileName) {
+    public PropertyConductor( String file) {
+        this.file = file;
         propertyList = new ArrayList<>();
         Stack<Pair<String, Integer>> levels = new Stack<>();
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+        try (Stream<String> stream = Files.lines(Paths.get(file))) {
             stream.forEach(line -> {
                 String[] next = parse(line);
                 if( next[KEY_INDEX].isEmpty() ) {
@@ -122,5 +128,22 @@ public class PropertyConductor {
                 return i;
         }
         return -1;
+    }
+
+
+    public void flash() throws IOException{
+        File fout = new File(file);
+        FileOutputStream fos = new FileOutputStream(fout);
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+        for (int i = 0; i < propertyList.size(); i++) {
+            String[] tokens = propertyList.get(i).getRight();
+            bw.write(tokens[BEFORE_KEY_INDEX]+tokens[KEY_INDEX]+(tokens[KEY_INDEX].isEmpty()?"":":")+tokens[BEFORE_VALUE_INDEX]+tokens[VALUE_INDEX]+tokens[LINE_TAIL_INDEX]);
+            if(i != propertyList.size()-1)
+                bw.newLine();
+        }
+
+        bw.close();
     }
 }
