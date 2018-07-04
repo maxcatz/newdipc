@@ -1,0 +1,7 @@
+a:
+  b:
+    c: one
+    d: 1
+    e: false
+d:
+  e: [one,two,three]
