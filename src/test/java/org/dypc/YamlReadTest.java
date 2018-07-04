@@ -3,6 +3,12 @@ package org.dypc;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.dypc.PropertyConductor.BEFORE_KEY_INDEX;
+import static org.dypc.PropertyConductor.BEFORE_VALUE_INDEX;
+import static org.dypc.PropertyConductor.KEY_INDEX;
+import static org.dypc.PropertyConductor.LINE_TAIL_INDEX;
+import static org.dypc.PropertyConductor.VALUE_INDEX;
+
 public class YamlReadTest {
     // test case
     @Test
@@ -12,7 +18,7 @@ public class YamlReadTest {
     // leaf cases
     @Test
     public void leafCases(){
-        validator("key: ",                      "", "key", " ","value", "");
+        validator("key: ",                      "", "key", "","", " ");
         validator("key: value",                 "", "key", " ","value", "");
         validator("key: value #comment",        "", "key", " ","value", " #comment");
         validator("key: #comment",              "", "key", "","", " #comment");
@@ -35,13 +41,12 @@ public class YamlReadTest {
 
     // method of validation
     public void validator(String input, String beforeKey, String key, String beforeValue, String Value, String afterValue){
-        PropertyMap propertyMap = new PropertyMap();
-        PropertyMap child = propertyMap.addProperty(input);
-        String[] tokens= child.getTokens();
-        Assert.assertEquals(beforeKey, tokens[PropertyMap.BEFORE_KEY_INDEX]);
-        Assert.assertEquals(key, tokens[PropertyMap.KEY_INDEX]);
-        Assert.assertEquals(beforeValue, tokens[PropertyMap.BEFORE_VALUE_INDEX]);
-        Assert.assertEquals(Value, tokens[PropertyMap.VALUE_INDEX] );
-        Assert.assertEquals(afterValue, tokens[PropertyMap.AFTER_VALUE_INDEX]);
+
+        String[] tokens = PropertyConductor.parse(input);
+        Assert.assertEquals(beforeKey, tokens[BEFORE_KEY_INDEX]);
+        Assert.assertEquals(key, tokens[KEY_INDEX]);
+        Assert.assertEquals(beforeValue, tokens[BEFORE_VALUE_INDEX]);
+        Assert.assertEquals(Value, tokens[VALUE_INDEX] );
+        Assert.assertEquals(afterValue, tokens[LINE_TAIL_INDEX]);
     }
 }
