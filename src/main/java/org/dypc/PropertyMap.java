@@ -43,13 +43,14 @@ public class PropertyMap {
         return line;
     }
 
-    public void addProperty(String line) {
+    public PropertyMap addProperty(String line) {
+        PropertyMap child = null;
         int colonIndex = line.indexOf(":");
         if (colonIndex != -1) {
-            String key = line.substring(0, colonIndex - 1);
+            String key = line.substring(0, colonIndex);
             int leadingSpacesNum = key.indexOf(key.trim());
             key = key.trim();
-            String valueAndComment = line.substring(colonIndex, line.length() - 1);
+            String valueAndComment = line.substring(colonIndex, line.length());
             int beforeVlaueSpaces = valueAndComment.indexOf(valueAndComment.trim());
             int numSignIndex = valueAndComment.indexOf(" #");
             int afterValueSpaces;
@@ -64,8 +65,10 @@ public class PropertyMap {
                 value = valueAndComment.trim();
                 afterValueSpaces = valueAndComment.length() - value.length() - beforeVlaueSpaces;
             }
-            propertyMap.put(key, new PropertyMap(leadingSpacesNum, key, beforeVlaueSpaces, value, afterValueSpaces, line, comment));
+            child = new PropertyMap(leadingSpacesNum, key, beforeVlaueSpaces, value, afterValueSpaces, line, comment);
+            propertyMap.put(key, child);
         }
+        return child ;
     }
 
     public PropertyMap getProperty(String key) {
