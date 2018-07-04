@@ -23,7 +23,7 @@ public class PropertyConductor {
     }
 
     public <T> T getPropertyValue (String key){
-         return (T) propertyMap.getProperty(key).getValue();
+         return (T) propertyMap.getProperty(key).getTokens()[PropertyMap.VALUE_INDEX];
      }
 
     public <T> Result setProperty (String key, T value){

@@ -35,19 +35,23 @@ public class PropertyMap {
         if (colonIndex != -1) {
             childTokens[KEY_INDEX] = line.substring(0, colonIndex).trim();
             childTokens[BEFORE_KEY_INDEX] = line.substring(0, line.indexOf(childTokens[KEY_INDEX]));
-            String valueAndComment = line.substring(colonIndex - 1);
+            String valueAndComment = line.substring(colonIndex + 1);
             int numSignIndex = valueAndComment.indexOf(" #");
-            childTokens[BEFORE_VALUE_INDEX] = valueAndComment.substring(0, valueAndComment.indexOf(childTokens[VALUE_INDEX]));
             if (numSignIndex != -1) {
                 childTokens[VALUE_INDEX] = valueAndComment.substring(0, numSignIndex).trim();
-                childTokens[AFTER_VALUE_INDEX] = valueAndComment.substring(numSignIndex - 1);
+                childTokens[AFTER_VALUE_INDEX] = valueAndComment.substring(numSignIndex + 1);
 
             } else {
                 childTokens[VALUE_INDEX] = valueAndComment.trim();
                 childTokens[AFTER_VALUE_INDEX] = "";
             }
+            childTokens[BEFORE_VALUE_INDEX] = valueAndComment.substring(0, valueAndComment.indexOf(childTokens[VALUE_INDEX]));
+            childTokens[AFTER_VALUE_INDEX] = valueAndComment.substring(valueAndComment.indexOf(childTokens[VALUE_INDEX]) + childTokens[VALUE_INDEX].length());
             child = new PropertyMap(childTokens);
             propertyMap.put(childTokens[KEY_INDEX], child);
+        } else {
+
+//            child = new PropertyMap()
         }
         return child;
     }
