@@ -5,6 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Stream;
@@ -21,12 +22,15 @@ public class PropertyConductor {
     private List<Pair<String,String[]>> propertyList;
 
     public PropertyConductor( String fileName) {
+        propertyList = new ArrayList<>();
         Stack<Pair<String, Integer>> levels = new Stack<>();
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             stream.forEach(line -> {
                 String[] next = parse(line);
-                if( next[KEY_INDEX].isEmpty() )
+                if( next[KEY_INDEX].isEmpty() ) {
+                    propertyList.add(Pair.of(next[KEY_INDEX], next));
                     return;
+                }
                 Pair<String, Integer> prevLevel = null;
                 if( !levels.empty()) {
                     prevLevel = levels.peek();
@@ -46,22 +50,45 @@ public class PropertyConductor {
                     key = next[KEY_INDEX];
                 }
                 levels.push(Pair.of(key, next[BEFORE_KEY_INDEX].length()));
+                propertyList.add(Pair.of(key, next));
+//                int place = findPlace(key);
+//                if (place == -1) {
+//                    propertyList.add(Pair.of(key, next));
+//                } else {
+//                    propertyList.add(place, Pair.of(key, next));
+//                }
                 System.out.println(key + ":" + next[VALUE_INDEX]);
             });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-//
-//    public <T> T getPropertyValue (String key){
-//         return (T) propertyMap.getProperty(key).getTokens()[VALUE_INDEX];
-//     }
 
-    public <T> Result setProperty (String key, T value){
+    public String getPropertyValue (String key){
+        int place = findPlace(key);
+        Pair<String, String[]> property = propertyList.get(place);
+        if (property.getLeft().equals(key)) {
+            return property.getValue()[VALUE_INDEX];
+        }
+        return null;
+    }
+
+    public Result setProperty (String key, String value){
         return setProperty(key,value,Operation.ADD_OR_MODIFY);
     }
 
-    public <T> Result setProperty (String key, T value, Operation operation){
+    public  Result setProperty (String key, String value, Operation operation){
+        int place = findPlace(key);
+        if (place != -1) {
+            Pair<String, String[]> property = propertyList.get(place);
+            if (property.getLeft().equals(key) && !Operation.ADD.equals(operation)) {
+                property.getValue()[VALUE_INDEX] = value;
+            } else if (!Operation.MODIFY.equals(operation)) {
+                propertyList.add(place, Pair.of(key, new String[]{"CHANGE THIS!!!!!!!", key, "", value, ""}));
+            }
+        } else {
+            propertyList.add(Pair.of(key, new String[]{"", key, "", value, ""}));
+        }
         return null;
     }
 
@@ -86,5 +113,14 @@ public class PropertyConductor {
             childTokens[LINE_TAIL_INDEX] = line;
         }
         return childTokens;
+    }
+
+    public int findPlace(String key) {
+        for (int i = propertyList.size() - 1; i >= 0; i--) {
+            Pair<String, String[]> current = propertyList.get(i);
+            if (!current.getKey().isEmpty() && key.startsWith(current.getKey()))
+                return i;
+        }
+        return -1;
     }
 }
