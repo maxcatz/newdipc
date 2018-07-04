@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PropertyMap {
-    private static final int BEFORE_KEY_INDEX = 0;
-    private static final int KEY_INDEX = 1;
-    private static final int BEFORE_VALUE_INDEX = 2;
-    private static final int VALUE_INDEX = 3;
-    private static final int AFTER_VALUE_INDEX = 4;
+    public static final int BEFORE_KEY_INDEX = 0;
+    public static final int KEY_INDEX = 1;
+    public static final int BEFORE_VALUE_INDEX = 2;
+    public static final int VALUE_INDEX = 3;
+    public static final int AFTER_VALUE_INDEX = 4;
 
     private String[] tokens;
     private Map<String, PropertyMap> propertyMap;
