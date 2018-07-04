@@ -50,8 +50,8 @@ public class PropertyMap {
             child = new PropertyMap(childTokens);
             propertyMap.put(childTokens[KEY_INDEX], child);
         } else {
-
-//            child = new PropertyMap()
+            childTokens[AFTER_VALUE_INDEX] = line;
+            child = new PropertyMap(childTokens);
         }
         return child;
     }

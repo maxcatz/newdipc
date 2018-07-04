@@ -40,7 +40,8 @@ public class YamlReadTest {
     public void emptyLine(){
         PropertyMap propertyMap = new PropertyMap();
         PropertyMap child = propertyMap.addProperty("");
-        Assert.assertNull(child);
+        String[] tokens = child.getTokens();
+        Assert.assertEquals("", tokens[PropertyMap.AFTER_VALUE_INDEX]);
     }
 
     @Test
@@ -58,8 +59,6 @@ public class YamlReadTest {
         PropertyMap propertyMap = new PropertyMap();
         PropertyMap child = propertyMap.addProperty("     #comment   now        ");
         String[] tokens= child.getTokens();
-        Assert.assertEquals("     ", tokens[PropertyMap.BEFORE_KEY_INDEX]);
-        Assert.assertEquals("keyA", tokens[PropertyMap.KEY_INDEX]);
-        Assert.assertEquals("        ", tokens[PropertyMap.AFTER_VALUE_INDEX]);
+        Assert.assertEquals("     #comment   now        ", tokens[PropertyMap.AFTER_VALUE_INDEX]);
     }
 }
