@@ -9,7 +9,7 @@ public class YamlFileRead {
     @Test
     public void read(){
         PropertyConductor conductor = new PropertyConductor("src/test/resources/test.yaml");
-
+        assertEquals("[one,two,three]", conductor.getPropertyValue("d.e"));
         System.out.println("Stop ");
     }
 
