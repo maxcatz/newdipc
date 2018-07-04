@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Stream;
@@ -88,7 +89,7 @@ public class PropertyConductor {
 
         if (place == -1) {
             if (!Operation.MODIFY.equals(operation)) {
-                propertyList.add(Pair.of(key, new String[]{propertyList.isEmpty() ? "" : propertyList.get(0).getRight()[BEFORE_KEY_INDEX], key, "", value, ""}));
+                propertyList.add(Pair.of(key, new String[]{propertyList.isEmpty() ? "" : propertyList.get(0).getRight()[BEFORE_KEY_INDEX], key, " ", value, ""}));
                 return new Result(key, null, value, Operation.ADD);
             } else {
                 return new Result(key, null, null, Operation.NONE);
@@ -107,11 +108,24 @@ public class PropertyConductor {
         }
 
         if (!Operation.MODIFY.equals(operation)) {
+            String[] newKeys = getNewKeys(key, place);
             String beforeKeyIndention = getIndention(key, place);
-            propertyList.add(place + 1, Pair.of(key, new String[]{beforeKeyIndention, key, "", value, ""}));
+            String cKey = propertyList.get(place).getKey() + "." + newKeys[0];
+            for (int i = 0; i < newKeys.length - 1; i++) {
+                propertyList.add(++place, Pair.of(cKey, new String[]{beforeKeyIndention, newKeys[i], "", "", ""}));
+                beforeKeyIndention += "  ";
+                cKey += "." + newKeys[i + 1];
+            }
+            propertyList.add(place + 1, Pair.of(cKey, new String[]{beforeKeyIndention, newKeys[newKeys.length - 1], " ", value, ""}));
             return new Result(key, null, value, Operation.ADD);
         }
         return new Result(key, null, null, Operation.NONE);
+    }
+
+    private String[] getNewKeys(String key, int place) {
+        Pair<String, String[]> prev = propertyList.get(place);
+        String newKeys = key.substring(prev.getLeft().length() + 1);
+        return newKeys.split("\\.");
     }
 
     private String getIndention(String key, int place) {
