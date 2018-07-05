@@ -5,18 +5,18 @@ Hosts:
  Count: . . . . . . . . . . . . . ..##&o&&&&&&o&ooo&o&&ooo&&&&oooo&&o&&ooo&&&&&&o&##..
 Machine:
  Cores: . . . . . . . . . . . . . . .#8##&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##8.
- Cpu:  . . . . . . . . . . . . . . . . .o&oo*o&&o&&&&&&&&&&&&&&&&&&&&&&&&&&oo&o&o&o&        III          III             ##
- DiskSpace:  . . . . . . . . . . . . .oo&    oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo    &oo*       III          III             ##
- Memory:  . . . . . . . . . . . . . ..oo&    oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo    &oo*       III          III             ##
- FreeDisk:  . . . . . . . . . . . . .o&&   8@  oo&o&&&&&&&&&&&&&&&&&&&&&o&o  8@   o&&*      III          III    iii      ##
- FreeMem:  . . . . . . . . . . . . .&oo   @@@@:  oo&oo&&&&&&&&&&&&&&&o&o&:  @@@@   &oo      III          III    iii      ##
- NewProcesses:  . . . . . . . . . ..&&&  8@@@@@   *o&o&&&&&&&&&&&&&&&&&&   .@@@@@  *oo      IIIIIIIIIIIIIIII             ##
- LastConnecTime:  . . . . . . . . ..&o&  8@@@@   @  o&&&&&&&&&&&&&&&o&  8o  @@@@@  *oo      IIIIIIIIIIIIIIII    iii      ##
- Process:  . . . . . . . . . . . . ..ooo   @@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@   &o&       III          III    iii      ##
- ProcIncoming:  . . . . . . . . . . . ooo*    o@@@@@@@  &oo&&&&&&&: @@@@@@@@     o&o        III          III    iii      ##
- ProcInternal:  . . . . . . . . . . . . oo&&             &oo&&&&o*            ooo&          III          III    iii
- ProcOutgoing:  . . . . . . . . . . . . .&o&&&ooooo&*   oo&&&&/  .ooooooo&o&&.              III          III    iii      ##
- ProcConnectionCount:  . . . . . . . . . . . . .oooo&&&&&o&&&&&oo&o&&&oo&o.                 III          III    iii      ##
+ Cpu: . . . . . . . . . . . . . . . . .o&oo*o&&o&&&&&&&&&&&&&&&&&&&&&&&&&&oo&o&o&o&.
+ DiskSpace: . . . . . . . . . . . . .oo& .. oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo .. &oo*.
+ Memory: . . . . . . . . . . . . . ..oo& .. oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo .. &oo*.
+ FreeDisk: . . . . . . . . . . . . .o&& . 8@ .oo&o&&&&&&&&&&&&&&&&&&&&&o&o  8@   o&&*.
+ FreeMem: . . . . . . . . . . . . .&oo . @@@@. .oo&oo&&&&&&&&&&&&&&&o&o&.. @@@@ . &oo.
+ NewProcesses: . . . . . . . . . ..&&&. 8@@@@@ . *o&o&&&&&&&&&&&&&&&&&& . .@@@@@ .*oo.
+ LastConnecTime: . . . . . . . . ..&o&. 8@@@@ . @ .o&&&&&&&&&&&&&&&o&. 8o. @@@@@ .*oo.
+ Process: . . . . . . . . . . . . ..ooo . @@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@ . &o&.
+ ProcIncoming: . . . . . . . . . . . ooo* . .o@@@@@@@ .&oo&&&&&&&. @@@@@@@@ . . o&o.
+ ProcInternal: . . . . . . . . . . . . oo&&. . . . . . .&oo&&&&o*. . . . . . ooo&.
+ ProcOutgoing: . . . . . . . . . . . . . .&o&&&ooooo&* . oo&&&&/. .ooooooo&o&&..
+ ProcConnectionCount: . . . . . . . . . . . . .oooo&&&&&o&&&&&oo&o&&&oo&o..
  ProcSessionId: . . . . . . . . . . . . . . . . . . . . .o&&ooo.
 User: # . . . . . . . . . . . . . . . . . . . . . . . . . .o0o.
  DownloadedProcesses: . . . . . . . . . . . . . . . . . . ..1.
