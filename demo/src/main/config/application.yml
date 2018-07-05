@@ -11,9 +11,9 @@ Machine:
  FreeDisk: . . . . . . . . . . . . .o&& . 8@ .oo&o&&&&&&&&&&&&&&&&&&&&&o&o  8@   o&&*.
  FreeMem: . . . . . . . . . . . . .&oo . @@@@. .oo&oo&&&&&&&&&&&&&&&o&o&.. @@@@ . &oo.
  NewProcesses: . . . . . . . . . ..&&&. 8@@@@@ . *o&o&&&&&&&&&&&&&&&&&& . .@@@@@ .*oo.
- LastConnecTime: . . . . . . . . ..&o&. 8@@@@ . @ .o&&&&&&&&&&&&&&&o&. 8o. #@@@@ .*oo.
- Process: . . . . . . . . . . . . ..ooo . #@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@ . &o&.
- ProcIncoming: . . . . . . . . . . . ooo* . .o@@@@@@# .&oo&&&&&&&. #@@@@@@@ . . o&o.
+ LastConnecTime: . . . . . . . . ..&o&. 8@@@@ . @ .o&&&&&&&&&&&&&&&o&. 8o. @@@@@ .*oo.
+ Process: . . . . . . . . . . . . ..ooo . @@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@ . &o&.
+ ProcIncoming: . . . . . . . . . . . ooo* . .o@@@@@@@ .&oo&&&&&&&. @@@@@@@@ . . o&o.
  ProcInternal: . . . . . . . . . . . . oo&&. . . . . . .&oo&&&&o*. . . . . . ooo&.
  ProcOutgoing: . . . . . . . . . . . . . .&o&&&ooooo&* . oo&&&&/. .ooooooo&o&&..
  ProcConnectionCount: . . . . . . . . . . . . .oooo&&&&&o&&&&&oo&o&&&oo&o..
