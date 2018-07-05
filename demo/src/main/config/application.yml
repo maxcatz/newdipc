@@ -1,23 +1,25 @@
 Connection:
-    Count:                         "8o&&ooo*                                      .oooo&o&8*"
-Hosts:                               #o#ooo&&&&&&&&o&&o&&&&&oo:::::oo&&&&o&ooo&&&&&&&&&o8#"
-    Count:                           "##&o&&&&&&o&ooo&o&&ooo&&&&oooo&&o&&ooo&&&&&&o&##."
-Machine:                               #8##&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##8"
-    cpu:                                "o&oo*o&&o&&&&&&&&&&&&&&&&&&&&&&&&&&oo&o&o&o&"
-    DiskSpace:                         "oo&    oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo    &oo*"
-    Memory:                           "oo&    oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo    &oo*"
-    freeDisk:                         "o&&   8@  oo&o&&&&&&&&&&&&&&&&&&&&&o&o  8@   o&&*"
-    freeMem:                         "&oo   @@@@:  oo&oo&&&&&&&&&&&&&&&o&o&:  @@@@   &oo"
-    newProcesses:                    "&&&  8@@@@@   *o&o&&&&&&&&&&&&&&&&&&   .@@@@@  *oo"
-    LastConnecTime:                  "&o&  8@@@@   @  o&&&&&&&&&&&&&&&o&  8o  #@@@@  *oo"
-    Process:                          "ooo   #@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@   &o&"
-    ProcIncoming:                      "ooo*    o@@@@@@#  &oo&&&&&&&: #@@@@@@@     o&o"
-    ProcInternal:                        "oo&&             &oo&&&&o*            ooo&"
-    ProcOutgoing:                           "&o&&&ooooo&*   oo&&&&/  .ooooooo&o&&."
-    ProcConnectionCount:                         "oooo&&&&&o&&&&&oo&o&&&oo&o."
-    ProcSessionId:                                         "o&&ooo"
-User:                                                        #o0o"
-    downloadedProcesses:                                      "1"
+ Count: . . . . . . . . . . . . 8o&&ooo* . . . . . . . . . . . . . . . . . . . . oooo&o&8*.
+Hosts:
+ IP:  . . . . . . . . . . . . . .#o#ooo&&&&&&&&o&&o&&&&&oo.....oo&&&&o&ooo&&&&&&&&&o8#.
+ Count: . . . . . . . . . . . . . ..##&o&&&&&&o&ooo&o&&ooo&&&&oooo&&o&&ooo&&&&&&o&##..
+Machine:
+ Cores: . . . . . . . . . . . . . . .#8##&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&##8.
+ Cpu: . . . . . . . . . . . . . . . . .o&oo*o&&o&&&&&&&&&&&&&&&&&&&&&&&&&&oo&o&o&o&.
+ DiskSpace: . . . . . . . . . . . . .oo& .. oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo .. &oo*.
+ Memory: . . . . . . . . . . . . . ..oo& .. oo&&&&&&&&&&&&&&&&&&&&&&&&&&&&oo .. &oo*.
+ FreeDisk: . . . . . . . . . . . . .o&& . 8@ .oo&o&&&&&&&&&&&&&&&&&&&&&o&o  8@   o&&*.
+ FreeMem: . . . . . . . . . . . . .&oo . @@@@. .oo&oo&&&&&&&&&&&&&&&o&o&.. @@@@ . &oo.
+ NewProcesses: . . . . . . . . . ..&&&. 8@@@@@ . *o&o&&&&&&&&&&&&&&&&&& . .@@@@@ .*oo.
+ LastConnecTime: . . . . . . . . ..&o&. 8@@@@ . @ .o&&&&&&&&&&&&&&&o&. 8o. #@@@@ .*oo.
+ Process: . . . . . . . . . . . . ..ooo . #@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@ . &o&.
+ ProcIncoming: . . . . . . . . . . . ooo* . .o@@@@@@# .&oo&&&&&&&. #@@@@@@@ . . o&o.
+ ProcInternal: . . . . . . . . . . . . oo&&. . . . . . .&oo&&&&o*. . . . . . ooo&.
+ ProcOutgoing: . . . . . . . . . . . . . .&o&&&ooooo&* . oo&&&&/. .ooooooo&o&&..
+ ProcConnectionCount: . . . . . . . . . . . . .oooo&&&&&o&&&&&oo&o&&&oo&o..
+ ProcSessionId: . . . . . . . . . . . . . . . . . . . . .o&&ooo.
+User: # . . . . . . . . . . . . . . . . . . . . . . . . . .o0o.
+ DownloadedProcesses: . . . . . . . . . . . . . . . . . . ..1.
 Team:
-    Name: DYPC
-    Members: Liya, Max & Elad
+ Name: DYPC
+ Members: Liya, Max & Elad
