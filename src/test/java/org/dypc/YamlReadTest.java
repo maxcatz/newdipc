@@ -19,32 +19,32 @@ public class YamlReadTest {
     // simple leaf cases:
     @Test
     public void simpleLeafCases(){
-        validator("key: ",                      "", "key", "","", " ");
-        validator("key:    ",                   "", "key", "","", "    ");
-        validator("key: value",                 "", "key", " ","value", "");
-        validator("key: value   ",              "", "key", " ","value", "   ");
-        validator("key:    value",              "", "key", "    ","value", "");
-        validator("key: value #comment",        "", "key", " ","value", " #comment");
-        validator("key:   value   #comment   ", "", "key", "   ","value", "   #comment   ");
-        validator("key: #comment",              "", "key", "","", " #comment");
-        validator("key:   #comment   ",         "", "key", "","", "   #comment   ");
+        validator("key: ",                       "", "key", "","", " ");
+        validator("key:    ",                    "", "key", "","", "    ");
+        validator("key: value",                  "", "key", " ","value", "");
+        validator("key: value   ",               "", "key", " ","value", "   ");
+        validator("key:    value",               "", "key", "    ","value", "");
+        validator("key: value #comment",         "", "key", " ","value", " #comment");
+        validator("key:   value   #comment   ",  "", "key", "   ","value", "   #comment   ");
+        validator("key: #comment",               "", "key", "","", " #comment");
+        validator("key:   #comment   ",          "", "key", "","", "   #comment   ");
     }
 
     // special leaf cases:
     @Test
     public void specialLeafCases(){
-        validator("123: ",                      "", "123", "","", " ");
-        validator("a1!: ",                      "", "a1!", "","", " ");
-        validator("2q@:    ",                   "", "2q@", "","", "    ");
-        validator("~`#$%^&*()-_+: ",            "", "~`#$%^&*()-_+", "","", " ");
+        validator("123: ",                       "", "123", "","", " ");
+        validator("a1!: ",                       "", "a1!", "","", " ");
+        validator("2q@:    ",                    "", "2q@", "","", "    ");
+        validator("~`#$%^&*()-_+: ",             "", "~`#$%^&*()-_+", "","", " ");
         //validator("=]}[{\":?'>|<: ",            "", "=]}[{\":?'>|<", "","", " ");
-        validator("k e y: v a l u e",           "", "k e y", " ","v a l u e", "");
-        validator("key: va#lue   ",             "", "key", " ","va#lue", "   ");
-        validator("key:    va# lue",            "", "key", "    ","va# lue", "");
+        validator("k e y: v a l u e",            "", "k e y", " ","v a l u e", "");
+        validator("key: va#lue   ",              "", "key", " ","va#lue", "   ");
+        validator("key:    va# lue",             "", "key", "    ","va# lue", "");
         //validator("ke:y: valu# e #comment",     "", "ke:y", " ","valu# e", " #comment");
-        validator("key:   value   #comment   ", "", "key", "   ","value", "   #comment   ");
-        validator("key: #comment",              "", "key", "","", " #comment");
-        validator("key:   #comment   ",         "", "key", "","", "   #comment   ");
+        validator("key:   value   #comment   ",  "", "key", "   ","value", "   #comment   ");
+        validator("key: #comment",               "", "key", "","", " #comment");
+        validator("key:   #comment   ",          "", "key", "","", "   #comment   ");
     }
 
     // simple child cases:
@@ -53,24 +53,24 @@ public class YamlReadTest {
         validator(" key: ",                      " ", "key", "","", " ");
         validator("  key:    ",                  "  ", "key", "","", "    ");
         validator(" key: value",                 " ", "key", " ","value", "");
-        validator("   key: value   ",              "   ", "key", " ","value", "   ");
-        validator("    key:    value",              "    ", "key", "    ","value", "");
+        validator("   key: value   ",            "   ", "key", " ","value", "   ");
+        validator("    key:    value",           "    ", "key", "    ","value", "");
         validator(" key: value #comment",        " ", "key", " ","value", " #comment");
-        validator("      key: value #comment",        "      ", "key", " ","value", " #comment");
+        validator("      key: value #comment",   "      ", "key", " ","value", " #comment");
         validator(" key:   value   #comment   ", " ", "key", "   ","value", "   #comment   ");
         validator("   key:   value   #comment ", "   ", "key", "   ","value", "   #comment ");
         validator(" key: #comment",              " ", "key", "","", " #comment");
         validator("          key:   #comment   ","          ", "key", "","", "   #comment   ");
-        validator(" key:            #comment   ",         " ", "key", "","", "            #comment   ");
+        validator(" key:            #comment   "," ", "key", "","", "            #comment   ");
     }
 
     // varied cases:
     @Test
     public void variedCases(){
-        validator("",                       "", "","","", "");
-        validator("#comment",               "", "", "","", "#comment");
-        validator("#comment ........",               "", "", "","", "#comment ........");
-        validator("  #comment  now  ",      "", "", "","", "  #comment  now  ");
+        validator("",                            "", "","","", "");
+        validator("#comment",                    "", "", "","", "#comment");
+        validator("#comment ........",           "", "", "","", "#comment ........");
+        validator("  #comment  now  !!!  ",      "", "", "","", "  #comment  now  !!!  ");
     }
 
     // method of validation
