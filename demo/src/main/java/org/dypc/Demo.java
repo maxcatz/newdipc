@@ -13,9 +13,9 @@ public class Demo {
         conductor.setProperty("Machine.FreeDisk"," . . . . . . . . . . . . .o&&   8@  oo&o&&&&&&&&&&&&&&&&&&&&&o&o  8@   o&&*      III          III    iii      ##");
         conductor.setProperty("Machine.FreeMem"," . . . . . . . . . . . . .&oo   @@@@:  oo&oo&&&&&&&&&&&&&&&o&o&:  @@@@   &oo      III          III    iii      ##");
         conductor.setProperty("Machine.NewProcesses"," . . . . . . . . . ..&&&  8@@@@@   *o&o&&&&&&&&&&&&&&&&&&   .@@@@@  *oo      IIIIIIIIIIIIIIII             ##");
-        conductor.setProperty("Machine.LastConnecTime"," . . . . . . . . ..&o&  8@@@@   @  o&&&&&&&&&&&&&&&o&  8o  #@@@@  *oo      IIIIIIIIIIIIIIII    iii      ##");
-        conductor.setProperty("Machine.Process"," . . . . . . . . . . . . ..ooo   #@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@   &o&       III          III    iii      ##");
-        conductor.setProperty("Machine.ProcIncoming"," . . . . . . . . . . . ooo*    o@@@@@@#  &oo&&&&&&&: #@@@@@@@     o&o        III          III    iii      ##");
+        conductor.setProperty("Machine.LastConnecTime"," . . . . . . . . ..&o&  8@@@@   @  o&&&&&&&&&&&&&&&o&  8o  @@@@@  *oo      IIIIIIIIIIIIIIII    iii      ##");
+        conductor.setProperty("Machine.Process"," . . . . . . . . . . . . ..ooo   @@@@@@@@@& *oo&&&&&&&&&&o  @@@@@@@@@   &o&       III          III    iii      ##");
+        conductor.setProperty("Machine.ProcIncoming"," . . . . . . . . . . . ooo*    o@@@@@@@  &oo&&&&&&&: @@@@@@@@     o&o        III          III    iii      ##");
         conductor.setProperty("Machine.ProcInternal"," . . . . . . . . . . . . oo&&             &oo&&&&o*            ooo&          III          III    iii");
         conductor.setProperty("Machine.ProcOutgoing"," . . . . . . . . . . . . .&o&&&ooooo&*   oo&&&&/  .ooooooo&o&&.              III          III    iii      ##");
         conductor.setProperty("Machine.ProcConnectionCount"," . . . . . . . . . . . . .oooo&&&&&o&&&&&oo&o&&&oo&o.                 III          III    iii      ##");
