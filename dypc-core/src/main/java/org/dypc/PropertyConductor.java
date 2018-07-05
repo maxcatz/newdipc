@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Stream;
@@ -23,8 +22,9 @@ public class PropertyConductor {
     public static final int BEFORE_VALUE_INDEX = 2;
     public static final int VALUE_INDEX = 3;
     public static final int LINE_TAIL_INDEX = 4;
+    public static final int COMPOSE_KEY_INDEX = 5;
 
-    private List<Pair<String,String[]>> propertyList;
+    private List<String[]> propertyList;
     private String file;
 
     public PropertyConductor( String file) {
@@ -35,7 +35,8 @@ public class PropertyConductor {
             stream.forEach(line -> {
                 String[] next = parse(line);
                 if( next[KEY_INDEX].isEmpty() ) {
-                    propertyList.add(Pair.of(next[KEY_INDEX], next));
+                    next[COMPOSE_KEY_INDEX] = next[KEY_INDEX];
+                    propertyList.add(next);
                     return;
                 }
                 Pair<String, Integer> prevLevel = null;
@@ -56,9 +57,9 @@ public class PropertyConductor {
                 } else {
                     key = next[KEY_INDEX];
                 }
+                next[COMPOSE_KEY_INDEX] = key;
                 levels.push(Pair.of(key, next[BEFORE_KEY_INDEX].length()));
-                propertyList.add(Pair.of(key, next));
-                System.out.println(key + ":" + next[VALUE_INDEX]);
+                propertyList.add(next);
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,9 +71,9 @@ public class PropertyConductor {
         if (place == -2 || place == -1) {
             return null;
         }
-        Pair<String, String[]> property = propertyList.get(place);
-        if (property.getLeft().equals(key)) {
-            return property.getValue()[VALUE_INDEX];
+       String[] property = propertyList.get(place);
+        if (property[COMPOSE_KEY_INDEX].equals(key)) {
+            return property[VALUE_INDEX];
         }
         return null;
     }
@@ -89,18 +90,18 @@ public class PropertyConductor {
 
         if (place == -1) {
             if (!Operation.MODIFY.equals(operation)) {
-                propertyList.add(Pair.of(key, new String[]{propertyList.isEmpty() ? "" : propertyList.get(0).getRight()[BEFORE_KEY_INDEX], key, " ", value, ""}));
+                propertyList.add( new String[]{propertyList.isEmpty() ? "" : propertyList.get(0)[BEFORE_KEY_INDEX], key, " ", value, "",key});
                 return new Result(key, null, value, Operation.ADD);
             } else {
                 return new Result(key, null, null, Operation.NONE);
             }
         }
 
-        Pair<String, String[]> property = propertyList.get(place);
-        if (property.getLeft().equals(key)) {
+        String[] property = propertyList.get(place);
+        if (property[COMPOSE_KEY_INDEX].equals(key)) {
             if (!Operation.ADD.equals(operation)) {
-                String oldValue = propertyList.get(place).getRight()[VALUE_INDEX];
-                property.getValue()[VALUE_INDEX] = value;
+                String oldValue = propertyList.get(place)[VALUE_INDEX];
+                property[VALUE_INDEX] = value;
                 return new Result(key, oldValue, value, Operation.MODIFY);
             } else {
                 return new Result(key, null, null, Operation.NONE);
@@ -110,39 +111,39 @@ public class PropertyConductor {
         if (!Operation.MODIFY.equals(operation)) {
             String[] newKeys = getNewKeys(key, place);
             String beforeKeyIndention = getIndention(key, place);
-            String cKey = propertyList.get(place).getKey() + "." + newKeys[0];
+            String cKey = propertyList.get(place)[COMPOSE_KEY_INDEX] + "." + newKeys[0];
             for (int i = 0; i < newKeys.length - 1; i++) {
-                propertyList.add(++place, Pair.of(cKey, new String[]{beforeKeyIndention, newKeys[i], "", "", ""}));
+                propertyList.add(++place,  new String[]{beforeKeyIndention, newKeys[i], "", "", "",cKey});
                 beforeKeyIndention += "  ";
                 cKey += "." + newKeys[i + 1];
             }
-            propertyList.add(place + 1, Pair.of(cKey, new String[]{beforeKeyIndention, newKeys[newKeys.length - 1], " ", value, ""}));
+            propertyList.add(place + 1, new String[]{beforeKeyIndention, newKeys[newKeys.length - 1], " ", value, "",cKey});
             return new Result(key, null, value, Operation.ADD);
         }
         return new Result(key, null, null, Operation.NONE);
     }
 
     private String[] getNewKeys(String key, int place) {
-        Pair<String, String[]> prev = propertyList.get(place);
-        String newKeys = key.substring(prev.getLeft().length() + 1);
+        String[] prev = propertyList.get(place);
+        String newKeys = key.substring(prev[COMPOSE_KEY_INDEX].length() + 1);
         return newKeys.split("\\.");
     }
 
     private String getIndention(String key, int place) {
         int keyLevel = key.split("\\.").length;
         for (int i = place; i >= 0; i--) {
-            int prevLevel = propertyList.get(i).getLeft().split("\\.").length;
+            int prevLevel = propertyList.get(i)[COMPOSE_KEY_INDEX].split("\\.").length;
             if (prevLevel == keyLevel) {
-                return propertyList.get(i).getRight()[BEFORE_KEY_INDEX];
+                return propertyList.get(i)[BEFORE_KEY_INDEX];
             } else if (prevLevel < keyLevel) {
-                return propertyList.get(i).getRight()[BEFORE_KEY_INDEX] + "  ";
+                return propertyList.get(i)[BEFORE_KEY_INDEX] + "  ";
             }
         }
         return "";
     }
 
     protected static String[] parse (String line) {
-        String[] childTokens = new String[]{"","","","","",""};
+        String[] childTokens = new String[]{"","","","","","",""};
         int colonIndex = line.indexOf(":");
         if (colonIndex != -1) {
             childTokens[KEY_INDEX] = line.substring(0, colonIndex).trim();
@@ -166,9 +167,9 @@ public class PropertyConductor {
 
     private int findPlace(String key) {
         for (int i = propertyList.size() - 1; i >= 0; i--) {
-            Pair<String, String[]> current = propertyList.get(i);
-            if (!current.getLeft().isEmpty() && key.startsWith(current.getLeft())) {
-                if (key.equals(current.getLeft()) || current.getRight()[VALUE_INDEX].isEmpty()) {
+            String[] current = propertyList.get(i);
+            if (!current[COMPOSE_KEY_INDEX].isEmpty() && key.startsWith(current[COMPOSE_KEY_INDEX])) {
+                if (key.equals(current[COMPOSE_KEY_INDEX]) || current[VALUE_INDEX].isEmpty()) {
                     return i;
                 } else {
                     return -2;
@@ -186,7 +187,7 @@ public class PropertyConductor {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
         for (int i = 0; i < propertyList.size(); i++) {
-            String[] tokens = propertyList.get(i).getRight();
+            String[] tokens = propertyList.get(i);
             bw.write(tokens[BEFORE_KEY_INDEX]+tokens[KEY_INDEX]+(tokens[KEY_INDEX].isEmpty()?"":":")+tokens[BEFORE_VALUE_INDEX]+tokens[VALUE_INDEX]+tokens[LINE_TAIL_INDEX]);
             if(i != propertyList.size()-1)
                 bw.newLine();
